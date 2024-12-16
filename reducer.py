@@ -1,13 +1,24 @@
 import sys
 curr_name, curr_views = None, 0
+word = None
+lines_read = 0
 
 for line in sys.stdin:
-    name, views = line.split("\t")
-    if name == curr_name:
-        views += curr_views
+    stripped_line = line.strip()
+    if (len(line.split("\t")) != 2):
+        print(line, file=sys.stderr)
+        continue
+    word, views = stripped_line.split("\t")
+    views = int(views)
+    if curr_name is None:
+        curr_name = word
+        curr_views += views
+    elif word == curr_name:
+        curr_views += views
     else:
         print(curr_name + "\t" + str(curr_views))
-        curr_name, curr_views = name, views
+        curr_name, curr_views = word, views
+    lines_read += 1
 
 print(curr_name + "\t" + str(curr_views))
 

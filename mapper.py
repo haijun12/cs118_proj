@@ -3,6 +3,11 @@ import sys
 import urllib
 from urllib.parse import unquote_plus
 
+# gzcat 20160602/* | python3 mapper.py > map_20160602_output.txt
+# cat map_20160601_output.txt map_20160602_output.txt | LC_ALL=C sort -k 1 |
+# cat mapper_output.txt | python3 reducer.py > reducer_output.txt
+
+
 excluded_pagenames = [
     "Media", "Special", "Talk", "User", "User_talk", "Project",
     "Project_talk", "File", "File_talk", "MediaWiki",
@@ -11,7 +16,7 @@ excluded_pagenames = [
 ]
 
 file_extensions = [
-    "jpg", "gif", ".png", ".JPG", ".GIF", ".PNG", ".ico", "and", ".txt"
+    "jpg", "gif", ".png", ".JPG", ".GIF", ".PNG", ".ico", ".txt"
 ]
 
 excluded_boilerplates = names = [
@@ -24,7 +29,7 @@ def filter(line):
     project_code, page_name, pageviews, bytes = stripped_line.split(" ")
     # Step 1
     filtered_page_name = unquote_plus(page_name)
-    filtered_page_name = filtered_page_name.strip()
+    # filtered_page_name = filtered_page_name.strip()
     filtered_page_name = filtered_page_name.replace("\n", " ")
     # Step 2
     if project_code != "en":
@@ -34,7 +39,7 @@ def filter(line):
         if filtered_page_name.startswith(excluded):
             return None
     # Step 4
-    if not filtered_page_name or "A" <= filtered_page_name[0] <= "Z":
+    if not filtered_page_name or "a" <= filtered_page_name[0] <= "z":
         return None
     # Step 5
     for ext in file_extensions:

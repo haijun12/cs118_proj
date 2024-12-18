@@ -8,7 +8,7 @@ for line in sys.stdin:
     if (len(line.split("\t")) != 2):
         print(line, file=sys.stderr)
         continue
-    word, views = stripped_line.split("\t")
+    word, views = stripped_line.split("\t", 1)
     views = int(views)
     if curr_name is None:
         curr_name = word

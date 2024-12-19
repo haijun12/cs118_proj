@@ -26,11 +26,11 @@ excluded_boilerplates = names = [
 
 def filter(line):
     stripped_line = line.strip()
-    project_code, page_name, pageviews, bytes = stripped_line.split(" ")
+    project_code, page_name, pageviews, bytes = stripped_line.split()
     # Step 1
     filtered_page_name = unquote_plus(page_name)
     # filtered_page_name = filtered_page_name.strip()
-    filtered_page_name = filtered_page_name.replace("\n", " ")
+    # filtered_page_name = filtered_page_name.replace("\n", " ")
     # Step 2
     if project_code != "en":
         return None
@@ -39,8 +39,8 @@ def filter(line):
         if filtered_page_name.startswith(excluded):
             return None
     # Step 4
-    if not filtered_page_name or "a" <= filtered_page_name[0] <= "z":
-        return None
+    if all(ord(c) < 128 for c in page_name[0]) and page_name[0].isalpha() and page_name[0].islower():
+        return None 
     # Step 5
     for ext in file_extensions:
         if filtered_page_name.endswith(ext):

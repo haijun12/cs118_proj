@@ -5,10 +5,10 @@ lines_read = 0
 
 for line in sys.stdin:
     stripped_line = line.strip()
-    if (len(line.split("\t")) != 2):
+    if (len(stripped_line.split("\t")) != 2):
         print(line, file=sys.stderr)
         continue
-    word, views = stripped_line.split("\t", 1)
+    word, views = stripped_line.split("\t")
     views = int(views)
     if curr_name is None:
         curr_name = word
